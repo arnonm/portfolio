@@ -42,10 +42,12 @@ import org.eclipse.swt.widgets.Label;
 
 import name.abuchen.portfolio.ui.Messages;
 import name.abuchen.portfolio.ui.PortfolioPlugin;
+import name.abuchen.portfolio.ui.util.TextDirection;
 
 public class LanguagePreferencePage extends PreferencePage
 {
     private static final String OSGI_NL = "osgi.nl"; //$NON-NLS-1$
+    public static final String TEXT_DIRECTION = "ui.text.direction"; //$NON-NLS-1$
 
     public enum Language
     {
@@ -54,6 +56,7 @@ public class LanguagePreferencePage extends PreferencePage
         ENGLISH("en", "English"), //$NON-NLS-1$ //$NON-NLS-2$
         SPANISH("es", "Español"), //$NON-NLS-1$ //$NON-NLS-2$
         FRENCH("fr", "Français"), //$NON-NLS-1$ //$NON-NLS-2$
+        HEBREW("he", "Hebrew"), //$NON-NLS-1$ //$NON-NLS-2$
         ITALIAN("it", "Italiano"), //$NON-NLS-1$ //$NON-NLS-2$
         DUTCH("nl", "Nederlands"), //$NON-NLS-1$ //$NON-NLS-2$
         PORTUGUESE("pt", "Português"), //$NON-NLS-1$ //$NON-NLS-2$
@@ -113,6 +116,7 @@ public class LanguagePreferencePage extends PreferencePage
         setTitle(Messages.PrefTitleLanguage);
         setDescription(Messages.PrefMsgLanguageConfig);
         loadUserPreferences();
+        setTextDirection(TextDirection.Direction.RTL);
     }
 
     @Override
@@ -376,4 +380,22 @@ public class LanguagePreferencePage extends PreferencePage
         }
     }
 
+    public TextDirection.Direction getTextDirection()
+    {
+        String value = userProperties.getProperty(TEXT_DIRECTION);
+        try
+        {
+            return TextDirection.Direction.valueOf(value);
+        }
+        catch (IllegalArgumentException e)
+        {
+            return TextDirection.Direction.AUTO;
+        }
+    }
+
+    public void setTextDirection(TextDirection.Direction direction)
+    {
+        userProperties.setProperty(TEXT_DIRECTION, direction.name());
+        TextDirection.setUserDirection(direction);
+    }
 }

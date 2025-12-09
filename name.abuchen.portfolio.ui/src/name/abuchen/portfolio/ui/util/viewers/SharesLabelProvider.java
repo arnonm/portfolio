@@ -17,6 +17,7 @@ import org.eclipse.swt.widgets.Widget;
 
 import name.abuchen.portfolio.money.DiscreetMode;
 import name.abuchen.portfolio.money.Values;
+import name.abuchen.portfolio.ui.util.TextDirection;
 import name.abuchen.portfolio.util.FormatHelper;
 
 public abstract class SharesLabelProvider extends OwnerDrawLabelProvider
@@ -49,7 +50,8 @@ public abstract class SharesLabelProvider extends OwnerDrawLabelProvider
     {
         if (this.cachedTextLayout == null)
         {
-            int orientation = this.viewer.getControl().getStyle() & (SWT.LEFT_TO_RIGHT | SWT.RIGHT_TO_LEFT);
+            // int orientation = this.viewer.getControl().getStyle() & (SWT.LEFT_TO_RIGHT | SWT.RIGHT_TO_LEFT);
+            int orientation = TextDirection.getOrientation(this.viewer.getControl());
             this.cachedTextLayout = new TextLayout(display);
             this.cachedTextLayout.setOrientation(orientation);
         }

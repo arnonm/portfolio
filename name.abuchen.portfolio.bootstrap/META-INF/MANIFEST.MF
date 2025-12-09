@@ -27,3 +27,4 @@ Require-Bundle: org.eclipse.emf.common,
  org.osgi.service.event,
  org.eclipse.e4.ui.services
 Automatic-Module-Name: name.abuchen.portfolio.bootstrap
+Bundle-Localization: OSGI-INF/l10n/bundle

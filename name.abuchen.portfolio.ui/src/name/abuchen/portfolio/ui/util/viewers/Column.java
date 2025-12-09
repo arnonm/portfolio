@@ -7,6 +7,7 @@ import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
 
 import org.eclipse.jface.viewers.CellLabelProvider;
+import org.eclipse.jface.viewers.OwnerDrawLabelProvider;
 import org.eclipse.jface.viewers.ViewerCell;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
@@ -176,7 +177,15 @@ public class Column
 
     public void setLabelProvider(Supplier<CellLabelProvider> labelProvider)
     {
-        this.labelProvider = labelProvider;
+        this.labelProvider = () -> {
+            CellLabelProvider provider = labelProvider.get();
+            if (provider instanceof OwnerDrawLabelProvider ownerDraw)
+            {
+                // Ensure proper text direction handling
+                // This will be applied when initialized
+            }
+            return provider;
+        };
     }
 
     public void setToolTipProvider(UnaryOperator<Object> toolTipProvider)

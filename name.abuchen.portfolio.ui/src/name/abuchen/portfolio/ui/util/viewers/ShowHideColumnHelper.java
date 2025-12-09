@@ -49,6 +49,7 @@ import name.abuchen.portfolio.ui.util.ConfigurationStore.ConfigurationStoreOwner
 import name.abuchen.portfolio.ui.util.ContextMenu;
 import name.abuchen.portfolio.ui.util.LabelOnly;
 import name.abuchen.portfolio.ui.util.SimpleAction;
+import name.abuchen.portfolio.ui.util.TextDirection;
 import name.abuchen.portfolio.ui.util.viewers.Column.CacheInvalidationListener;
 import name.abuchen.portfolio.util.TextUtil;
 
@@ -96,6 +97,10 @@ public class ShowHideColumnHelper implements IMenuListener, ConfigurationStoreOw
 
         void setCommonParameters(Column column, ViewerColumn viewerColumn, Integer direction)
         {
+            // Apply text direction to viewer
+            int orientation = TextDirection.getOrientation(getViewer().getControl());
+            getViewer().getControl().setOrientation(orientation);
+            
             if (column.getSorter() != null)
             {
                 if (direction != null)

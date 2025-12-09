@@ -119,6 +119,13 @@ public class PortfolioPart implements ClientInputListener
         if (clientInput.getFile() != null)
             part.getPersistedState().put(UIConstants.PersistedState.FILENAME, clientInput.getFile().getAbsolutePath());
 
+        Shell shell = parent.getShell();
+        shell.setOrientation(SWT.RIGHT_TO_LEFT);
+
+        // Store in context for child views to access
+        context.set("textOrientation", SWT.RIGHT_TO_LEFT);
+        applyOrientationToChildren(parent, SWT.RIGHT_TO_LEFT);
+
         clientInput.addListener(this);
         dirty.setDirty(clientInput.isDirty());
 
@@ -142,6 +149,17 @@ public class PortfolioPart implements ClientInputListener
         clientInputFactory.incrementEditorCount(clientInput);
     }
 
+    private void applyOrientationToChildren(Control control, int orientation)
+    {
+        if (control instanceof Composite composite)
+        {
+            for (Control child : composite.getChildren())
+            {
+                child.setOrientation(orientation);
+                applyOrientationToChildren(child, orientation);
+            }
+        }
+    }
     private void createContainerWithViews(Composite parent)
     {
         container = new Composite(parent, SWT.NONE);

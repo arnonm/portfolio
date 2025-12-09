@@ -246,6 +246,7 @@ public interface UIConstants
         @Deprecated(since = "2025-05-09")
         String PORTFOLIO_REPORT_API_URL = "PORTFOLIO_REPORT_API_URL"; //$NON-NLS-1$ //NOSONAR
 
+        String ENABLE_LTR_SUPPORT = "ENABLE_LTR_SUPPORT"; //$NON-NLS-1$
         /**
          * Preference key whether to store settings (standard calendar)
          */
