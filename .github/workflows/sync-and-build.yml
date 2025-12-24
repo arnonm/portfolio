@@ -21,7 +21,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git remote add upstream https://github.com//portfolio-performance/portfolio.git
+          git remote add upstream https://github.com/portfolio-performance/portfolio.git
           git fetch upstream
           
           # Update master
@@ -39,5 +39,5 @@ jobs:
   call-build:
     needs: sync
     # Points to the file in your repo: .github/workflows/build-tlv.yml
-    uses: ./.github/workflows/build-tlv.yml@TLVTrade2
+    uses: .github/workflows/build-tlv.yml@TLVTrade2
     secrets: inherit # Passes secrets (like SYNC_TOKEN) to the build workflow
