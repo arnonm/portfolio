@@ -109,7 +109,7 @@ public class TASESearchProviderTest
 
 
             results = tase.search("1150192");
-            assertThat(results.size(), is(1));
+            assertThat(results.size(), is(2));
             assertThat(results.get(0).getCurrencyCode(), is("ILA"));
             assertThat(results.get(0).getExchange(), is("TASE"));
             assertThat(results.get(0).getIsin(), is("IL0011501926"));
