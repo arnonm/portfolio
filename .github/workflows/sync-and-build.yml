@@ -39,5 +39,5 @@ jobs:
   call-build:
     needs: sync
     # Points to the file in your repo: .github/workflows/build-tlv.yml
-    uses: ./.github/workflows/build-tlv.yml@TLVTrade2
+    uses: arnonm/portfolio/.github/workflows/build-and-deploy.yml@TLVTrade2
     secrets: inherit # Passes secrets (like SYNC_TOKEN) to the build workflow
