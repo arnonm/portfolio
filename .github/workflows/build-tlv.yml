@@ -36,8 +36,5 @@ jobs:
         mvn verify \
         --batch-mode \
         --file portfolio-app/pom.xml
-
-    -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
-        --file portfolio-app/pom.xml
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
