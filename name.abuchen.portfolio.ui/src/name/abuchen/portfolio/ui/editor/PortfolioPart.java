@@ -58,6 +58,7 @@ import name.abuchen.portfolio.ui.UIConstants;
 import name.abuchen.portfolio.ui.editor.Navigation.Item;
 import name.abuchen.portfolio.ui.util.Colors;
 import name.abuchen.portfolio.ui.util.SimpleAction;
+import name.abuchen.portfolio.ui.util.TextDirection;
 import name.abuchen.portfolio.ui.util.swt.SashLayout;
 import name.abuchen.portfolio.ui.util.swt.SashLayoutData;
 import name.abuchen.portfolio.ui.views.ExceptionView;
@@ -120,11 +121,12 @@ public class PortfolioPart implements ClientInputListener
             part.getPersistedState().put(UIConstants.PersistedState.FILENAME, clientInput.getFile().getAbsolutePath());
 
         Shell shell = parent.getShell();
-        shell.setOrientation(SWT.RIGHT_TO_LEFT);
+        int orientation = TextDirection.getOrientation(parent);
+        shell.setOrientation(orientation);
 
         // Store in context for child views to access
-        context.set("textOrientation", SWT.RIGHT_TO_LEFT);
-        applyOrientationToChildren(parent, SWT.RIGHT_TO_LEFT);
+        context.set("textOrientation", orientation);
+        applyOrientationToChildren(parent, orientation);
 
         clientInput.addListener(this);
         dirty.setDirty(clientInput.isDirty());
