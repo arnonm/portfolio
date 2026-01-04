@@ -8,6 +8,8 @@
    </configIni>
 
    <launcherArgs>
+      <programArgs>-nl he
+      </programArgs>
       <vmArgs>-XX:+IgnoreUnrecognizedVMOptions -Dosgi.requiredJavaVersion=21 -Djdk.xml.elementAttributeLimit=0 --add-modules=ALL-SYSTEM -XX:+UseG1GC -XX:+UseStringDeduplication -Xms512m
       </vmArgs>
       <vmArgsLin>-Djdk.gtk.version=3
