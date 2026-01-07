@@ -27,8 +27,13 @@ eclipse configuration PortfolioPerformance {
     execution-environment 'JavaSE-21';
     
     argument "-consoleLog";
+    argument "-nl";
+    argument "he";
+    argument "-clearPersistedState";
     
+        
     vm-argument "-XX:+IgnoreUnrecognizedVMOptions";
+    vm-argument "-Dosgi.nl=he";
     vm-argument "--add-modules=ALL-SYSTEM";
     vm-argument "-XX:+UseG1GC";
     vm-argument "-XX:+UseStringDeduplication";

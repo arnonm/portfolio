@@ -7,6 +7,9 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -34,6 +37,7 @@ import org.eclipse.e4.ui.workbench.IModelResourceHandler;
 import org.eclipse.e4.ui.workbench.IWorkbench;
 import org.eclipse.e4.ui.workbench.lifecycle.PostContextCreate;
 import org.eclipse.e4.ui.workbench.lifecycle.PreSave;
+import org.eclipse.e4.ui.workbench.lifecycle.ProcessAdditions;
 import org.eclipse.e4.ui.workbench.lifecycle.ProcessRemovals;
 import org.eclipse.e4.ui.workbench.modeling.EModelService;
 import org.eclipse.emf.ecore.EObject;
@@ -62,6 +66,7 @@ public class LifeCycleManager
         checkForCustomCSSFile();
         checkForModelChanges();
         checkForRequestToClearPersistedState();
+        loadTextDirection();
         setupEventLoopAdvisor(context);
     }
 
@@ -128,6 +133,55 @@ public class LifeCycleManager
         }
     }
 
+    private void loadTextDirection()
+    {
+        try
+        {
+            // Load text direction preference from config.ini
+            URL configArea = Platform.getConfigurationLocation().getURL();
+            URI uri = new URI(configArea.toExternalForm().replace(" ", "%20")); //$NON-NLS-1$ //$NON-NLS-2$
+            Path userConfigFile = Paths.get(uri).resolve("config.ini"); //$NON-NLS-1$
+            
+            if (Files.exists(userConfigFile))
+            {
+                java.util.Properties userProperties = new java.util.Properties();
+                try (java.io.InputStream input = new java.io.FileInputStream(userConfigFile.toFile()))
+                {
+                    userProperties.load(input);
+                }
+                
+                String textDirectionValue = userProperties.getProperty("ui.text.direction"); //$NON-NLS-1$
+                if (textDirectionValue != null)
+                {
+                    try
+                    {
+                        // Use reflection to load TextDirection class and set user direction
+                        Class<?> textDirectionClass = Class.forName("name.abuchen.portfolio.ui.util.TextDirection"); //$NON-NLS-1$
+                        Class<?> directionEnumClass = Class.forName("name.abuchen.portfolio.ui.util.TextDirection$Direction"); //$NON-NLS-1$
+                        
+                        @SuppressWarnings({ "unchecked", "rawtypes" })
+                        Object direction = java.lang.Enum.valueOf((Class<? extends Enum>) directionEnumClass,
+                                        textDirectionValue);
+                        java.lang.reflect.Method setUserDirection = textDirectionClass.getMethod("setUserDirection", //$NON-NLS-1$
+                                        directionEnumClass);
+                        setUserDirection.invoke(null, direction);
+                        
+                        logger.info(MessageFormat.format("Text direction loaded from preferences: {0}", textDirectionValue)); //$NON-NLS-1$
+                    }
+                    catch (Exception e)
+                    {
+
+                        logger.error("Failed to set text direction", e); //$NON-NLS-1$
+                    }
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            logger.error("Failed to load text direction preference", e); //$NON-NLS-1$
+        }
+    }
+
     public void setupEventLoopAdvisor(final IEclipseContext context)
     {
         // do not show an error popup if is the annoying NPE on El Capitan
@@ -189,6 +243,75 @@ public class LifeCycleManager
             }
 
         });
+    }
+    
+    private void setOrientationRecursive(org.eclipse.swt.widgets.Control control, int orientation)
+    {
+        control.setOrientation(orientation);
+        if (control instanceof org.eclipse.swt.widgets.Composite)
+        {
+            org.eclipse.swt.widgets.Composite composite = (org.eclipse.swt.widgets.Composite) control;
+            for (org.eclipse.swt.widgets.Control child : composite.getChildren())
+            {
+                setOrientationRecursive(child, orientation);
+            }
+        }
+    }
+
+    @ProcessAdditions
+    public void processAdditions(MApplication application)
+    {
+        // This runs when UI elements are being added, which is our last chance to set orientation
+        // before the window is fully rendered
+        try
+        {
+            logger.info("ProcessAdditions: Starting RTL orientation setup"); //$NON-NLS-1$
+            
+            // Check if RTL language is active by checking osgi.nl property
+            boolean isRTL = false;
+            String osgiNl = System.getProperty("osgi.nl", ""); //$NON-NLS-1$ //$NON-NLS-2$
+            if (!osgiNl.isEmpty())
+            {
+                String language = osgiNl.length() >= 2 ? osgiNl.substring(0, 2) : osgiNl;
+                isRTL = language.matches("^(ar|he|fa|ur|yi)$"); //$NON-NLS-1$
+                logger.info("ProcessAdditions: osgi.nl=" + osgiNl + ", language=" + language + ", isRTL=" + isRTL); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+            }
+            
+            if (isRTL)
+            {
+                Display display = Display.getCurrent();
+                if (display == null)
+                {
+                    display = Display.getDefault();
+                }
+                
+                logger.info("ProcessAdditions: Display obtained: " + display); //$NON-NLS-1$
+                
+                if (display != null)
+                {
+                    org.eclipse.swt.widgets.Shell[] shells = display.getShells();
+                    logger.info("ProcessAdditions: Found " + (shells != null ? shells.length : 0) + " shells"); //$NON-NLS-1$ //$NON-NLS-2$
+                    
+                    if (shells != null && shells.length > 0)
+                    {
+                        for (org.eclipse.swt.widgets.Shell shell : shells)
+                        {
+                            if (shell != null && !shell.isDisposed())
+                            {
+                                shell.setOrientation(org.eclipse.swt.SWT.RIGHT_TO_LEFT);
+                                setOrientationRecursive(shell, org.eclipse.swt.SWT.RIGHT_TO_LEFT);
+                                shell.layout(true, true);
+                                logger.info("Applied RTL orientation to shell in ProcessAdditions"); //$NON-NLS-1$
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            logger.error("Failed to apply shell orientation in ProcessAdditions: " + e.getClass().getName() + ": " + e.getMessage(), e); //$NON-NLS-1$ //$NON-NLS-2$
+        }
     }
 
     @ProcessRemovals

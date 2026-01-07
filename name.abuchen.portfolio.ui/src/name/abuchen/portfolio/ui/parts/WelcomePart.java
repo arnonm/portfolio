@@ -33,6 +33,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Link;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.forms.events.IHyperlinkListener;
 import org.eclipse.ui.forms.widgets.ImageHyperlink;
 
@@ -44,6 +45,7 @@ import name.abuchen.portfolio.ui.util.Colors;
 import name.abuchen.portfolio.ui.util.DesktopAPI;
 import name.abuchen.portfolio.ui.util.FormDataFactory;
 import name.abuchen.portfolio.ui.util.RecentFilesCache;
+import name.abuchen.portfolio.ui.util.TextDirection;
 import name.abuchen.portfolio.ui.util.swt.StyledLabel;
 import name.abuchen.portfolio.util.BuildInfo;
 
@@ -73,6 +75,11 @@ public class WelcomePart
     @PostConstruct
     public void createComposite(Composite parent)
     {
+        // Set shell orientation for RTL languages at startup
+        Shell shell = parent.getShell();
+        int orientation = TextDirection.getOrientation(parent);
+        shell.setOrientation(orientation);
+        
         container = new Composite(parent, SWT.NONE);
         container.setBackground(Colors.WHITE);
         GridLayoutFactory.fillDefaults().margins(20, 20).applyTo(container);
