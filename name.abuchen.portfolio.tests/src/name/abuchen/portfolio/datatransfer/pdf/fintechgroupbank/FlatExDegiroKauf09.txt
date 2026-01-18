@@ -9,38 +9,47 @@ Gadollaplatz 1
 Tel.: +43 - (0)720 518 777 
 Mail: info@flatex.at
 flatexDEGIRO Bank AG - Gadollaplatz 1 - A-8010 Graz
-Graz, 30.12.2025
-0202272000005450065880
-vILvdAy GpPIJhr 
-JngRleSh 0 
-8932 EBYDEsTDmJJeQ Auftragsdatum 30.12.2025
-ÖSTERREICH Handelstag 30.12.2025
-Ausführungszeit 10:24 Uhr
-Valuta 02.01.2026
-Auftragsnummer 385641547/1
-Ausf.platz/-art Tradegate
+Graz, 03.01.2026
+0202272000005548848680
+Max Mustermann 
+Blumenstraße 1
+3456 Graz Auftragsdatum 02.01.2026
+ÖSTERREICH Handelstag 02.01.2026
+Ausführungszeit 16:24 Uhr
+Valuta 06.01.2026
+Auftragsnummer 329509082/1
+Ausf.platz/-art KVG/außerbörsl.
 Wertpapierabrechnung Kauf Fonds/Zertifikate
-Ihre Depotnummer: 08651562408
-Depotinhaber: Muigjtf, vhPBkrh
-Nr. 329584567/1     Kauf       XTRACKERS MSCI WLD INFORM (IE00BM67HT60/A113FM)
-Ausgeführt: 10 St. Kurswert: 1.006,40 EUR
-Kurs: 100,640000 EUR Provision: 5,90 EUR
+Ihre Depotnummer: 12345678901
+Depotinhaber: Mustermann, Max
+Nr. 329509082/1     Kauf       ISHARES S&P 500 INFO TECH (IE00B3WJKG14/A142N1)
+Ausgeführt: 13,948947 St. Kurswert: 500,00 EUR
+Kurs: 35,845000 EUR Provision: 1,50 EUR
 Devisenkurs: 1,000000 Eigene Spesen: 0,00 EUR
-* Fremde Spesen: 2,51 EUR
+* Fremde Spesen: 0,00 EUR
 Verwahrart: Wertpapierrechnung
 Lagerstelle: Clearstream Lux.
 Lagerland: Irland Bemessungsgrundlage: 0,00 EUR
 Gewinn/Verlust: 0,00 EUR ** Einbeh. KESt: 0,00 EUR
-Endbetrag: -1.014,81 EUR
+Endbetrag: -501,50 EUR
 * Enthalten sind folgende Gebühren: Courtage: 0,00 EUR
 Tradinggebühr: 0,00 EUR
-Regulierung: 2,44 EUR
-Schlussnoten: 0,07 EUR
+Regulierung: 0,00 EUR
+Schlussnoten: 0,00 EUR
 LS-Umlegung: 0,00 EUR
 Finanztransaktionssteuer: 0,00 EUR
 Sonstige: 0,00 EUR
-** Einbehaltene Kapitalertragsteuer. Details dazu finden Sie im Steuerreport unter der Transaktion-Nr.: 4665986542.
-Die Verrechnung der Endbeträge erfolgt über Ihr Konto Nr.: 07628460259
+** Einbehaltene Kapitalertragsteuer. Details dazu finden Sie im Steuerreport unter der Transaktion-Nr.: 4685418678.
+Der Kurswert enthält 0,000% regulären Ausgabeaufschlag (AA) abzg. Rabatt
+Rabattierung: keine gezahlter AA: 0,00 EUR
+Kurs: 35,8450 EUR Kurswert: 500,0000 EUR
+Die Verrechnung der Endbeträge erfolgt über Ihr Konto Nr.: 23456789012
+flatexDEGIRO Bank AG Niederlassung Österreich | Aktiengesellschaft | Gadollaplatz 1 | 8010 Graz | Landesgericht für Zivilrechtssachen Graz | FN 334642 x | UID ATU 65140956
+Hauptniederlassung: flatexDEGIRO Bank AG | Omniturm | Große Gallusstr. 16-18 | 60312 Frankfurt am Main (Deutschland) | Amtsgericht Frankfurt am Main | HRB 105687
+- Vorsitzender des Aufsichtsrats: Hans-Hermann Lotter | Vorstand: Oliver Behrens (Vorsitzender), Dr. Benon Janos (stellv. Vorsitzender),
+Evgeni Kaplun, Jens Möbitz, Christiane Strubel -
+Seite 1 von 2
+2000005548848680 035120227000
 Die Wertpapiere sowie den Gegenwert werden wir entsprechend der Abrechnung mit dem angegebenen Valutatag 
 buchen. Bitte prüfen Sie diese Abrechnung auf Richtigkeit und Vollständigkeit. Etwaige Einwendungen gegen diese 
 Abrechnung müssen unverzüglich nach Zugang bei der Bank erhoben werden. Die Unterlassung rechtzeitiger 
@@ -54,5 +63,5 @@ flatexDEGIRO Bank AG Niederlassung Österreich | Aktiengesellschaft | Gadollapla
 Hauptniederlassung: flatexDEGIRO Bank AG | Omniturm | Große Gallusstr. 16-18 | 60312 Frankfurt am Main (Deutschland) | Amtsgericht Frankfurt am Main | HRB 105687
 - Vorsitzender des Aufsichtsrats: Hans-Hermann Lotter | Vorstand: Oliver Behrens (Vorsitzender), Dr. Benon Janos (stellv. Vorsitzender),
 Evgeni Kaplun, Jens Möbitz, Christiane Strubel -
-Seite 1 von 1
-3109513496563882 742158870331
+Seite 2 von 2
+2000005548848680 035120227000
