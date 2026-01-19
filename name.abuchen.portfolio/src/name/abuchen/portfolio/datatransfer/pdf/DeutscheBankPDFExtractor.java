@@ -427,8 +427,9 @@ public class DeutscheBankPDFExtractor extends AbstractPDFExtractor
                                         // Umrechnungskurs USD zu EUR 1,1019000000
                                         // @formatter:on
                                         section -> section //
-                                                        .attributes("gross", "baseCurrency", "termCurrency", "exchangeRate") //
-                                                        .match("^Bruttoertrag (?<gross>[\\.,\\d]+) [A-Z]{3}$") //
+                                                        .attributes("fxGross", "baseCurrency", "termCurrency",
+                                                                        "exchangeRate") //
+                                                        .match("^Bruttoertrag (?<fxGross>[\\.,\\d]+) [A-Z]{3}[\\s]*$") //
                                                         .match("^Umrechnungskurs (?<termCurrency>[A-Z]{3}) zu (?<baseCurrency>[A-Z]{3}) (?<exchangeRate>[\\.,\\d]+)$") //
                                                         .assign((t, v) -> {
                                                             if (!type.getCurrentContext().getBoolean("negative"))
@@ -436,10 +437,23 @@ public class DeutscheBankPDFExtractor extends AbstractPDFExtractor
                                                                 var rate = asExchangeRate(v);
                                                                 type.getCurrentContext().putType(rate);
 
-                                                                var gross = Money.of(rate.getBaseCurrency(), asAmount(v.get("gross")));
-                                                                var fxGross = rate.convert(rate.getTermCurrency(), gross);
+                                                                var fxGross = Money.of(rate.getTermCurrency(),
+                                                                                asAmount(v.get("fxGross")));
+                                                                var gross = rate.convert(rate.getBaseCurrency(),
+                                                                                fxGross);
 
-                                                                checkAndSetGrossUnit(gross, fxGross, t, type.getCurrentContext());
+                                                                // @formatter:off
+                                                                // Even though this is a forex transaction, the security may be
+                                                                // held in the native currency. In that case, the GROSS_VALUE
+                                                                // unit needs to be set. In the foreign currency that is.
+                                                                // @formatter:on
+                                                                if (t.getSecurity().getCurrencyCode()
+                                                                                .equals(t.getCurrencyCode()))
+                                                                    checkAndSetGrossUnit(gross, fxGross, t,
+                                                                                    type.getCurrentContext());
+                                                                else
+                                                                    checkAndSetGrossUnit(fxGross, gross, t,
+                                                                                    type.getCurrentContext());
                                                             }
                                                         }))
 
