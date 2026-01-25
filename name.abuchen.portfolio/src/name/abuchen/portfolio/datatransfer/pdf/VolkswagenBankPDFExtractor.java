@@ -9,13 +9,13 @@ import name.abuchen.portfolio.model.Transaction.Unit;
 import name.abuchen.portfolio.money.Money;
 
 @SuppressWarnings("nls")
-public class AudiBankPDFExtractor extends AbstractPDFExtractor
+public class VolkswagenBankPDFExtractor extends AbstractPDFExtractor
 {
-    public AudiBankPDFExtractor(Client client)
+    public VolkswagenBankPDFExtractor(Client client)
     {
         super(client);
 
-        addBankIdentifier("Audi Bank");
+        addBankIdentifier("Volkswagen Bank");
 
         addAccountStatementTransaction();
     }
@@ -23,15 +23,14 @@ public class AudiBankPDFExtractor extends AbstractPDFExtractor
     @Override
     public String getLabel()
     {
-        return "Audi Bank";
+        return "Volkswagen Bank";
     }
-
 
     private void addAccountStatementTransaction()
     {
         final DocumentType type = new DocumentType("Kontoauszug / Saldenmitteilung", //
                         documentContext -> documentContext //
-                                        // @formatter:off
+                        // @formatter:off
                                         // Alter Kontostand in EUR: 1.001,29
                                         // @formatter:on
                                         .section("currency") //
@@ -70,7 +69,8 @@ public class AudiBankPDFExtractor extends AbstractPDFExtractor
         // 1 21.08.2023 Telebanking Belastung 22.08.2023 -1,00
         // 3 23.08.2023 Belastung 23.08.2023 -1,00
         // @formatter:on
-        Block removalBlock = new Block("^[\\d]+ [\\d]{2}\\.[\\d]{2}\\.[\\d]{4} (Telebanking )?Belastung [\\d]{2}\\.[\\d]{2}\\.[\\d]{4} \\-[\\.,\\d]+$");
+        Block removalBlock = new Block(
+                        "^[\\d]+ [\\d]{2}\\.[\\d]{2}\\.[\\d]{4} (Telebanking )?Belastung [\\d]{2}\\.[\\d]{2}\\.[\\d]{4} \\-[\\.,\\d]+$");
         type.addBlock(removalBlock);
         removalBlock.set(new Transaction<AccountTransaction>()
 
@@ -97,7 +97,8 @@ public class AudiBankPDFExtractor extends AbstractPDFExtractor
         // 3 23.12.2021 Kirchensteuer 25.12.2021 -0,01
         // 4 23.12.2021 Abgeltungsteuer 25.12.2021 -0,20
         // @formatter:on
-        Block interestBlock = new Block("^[\\d]+ [\\d]{2}\\.[\\d]{2}\\.[\\d]{4} Habenzinsen [\\d]{2}\\.[\\d]{2}\\.[\\d]{4} [\\.,\\d]+$");
+        Block interestBlock = new Block(
+                        "^[\\d]+ [\\d]{2}\\.[\\d]{2}\\.[\\d]{4} Habenzinsen [\\d]{2}\\.[\\d]{2}\\.[\\d]{4} [\\.,\\d]+$");
         type.addBlock(interestBlock);
         interestBlock.set(new Transaction<AccountTransaction>()
 
