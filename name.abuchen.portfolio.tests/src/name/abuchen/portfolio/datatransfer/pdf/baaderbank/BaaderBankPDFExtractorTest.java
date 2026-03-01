@@ -5817,19 +5817,19 @@ public class BaaderBankPDFExtractorTest
 
         var results = extractor.extract(PDFInputFile.loadTestCase(getClass(), "Periodenauszug10.txt"), errors);
 
-        // Check if the results list is not empty
-        assertTrue(results.isEmpty());
+        assertThat(errors.size(), is(1));
+        assertThat(countSecurities(results), is(0L));
+        assertThat(countBuySell(results), is(0L));
+        assertThat(countAccountTransactions(results), is(0L));
+        assertThat(countAccountTransfers(results), is(0L));
+        assertThat(countItemsWithFailureMessage(results), is(0L));
+        assertThat(countSkippedItems(results), is(0L));
+        assertThat(results.size(), is(0));
 
-        // Check if at least one error is present
-        assertTrue(!errors.isEmpty());
-
-        // Extract the first error from the list
         var firstError = errors.get(0);
 
-        // Check if the first error is an UnsupportedOperationException
         assertTrue(firstError instanceof UnsupportedOperationException);
 
-        // Check the error message of the first error
         var expectedErrorMessage = MessageFormat.format(Messages.PDFdbMsgCannotDetermineFileType,
                         "Baader Bank AG / Scalable Capital Vermögensverwaltung GmbH / Traders Place GmbH & Co. KGaA",
                         "Periodenauszug10.txt");
