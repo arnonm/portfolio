@@ -27,6 +27,28 @@ PDF importers extract transactions from bank and broker PDF statements.
 Beside general good practices for regular expressions, keep in mind:
 * all special characters in the PDF document (`äöüÄÖÜß` as well as e.g. circumflex or similar) should be matched by a `.` (dot) because the PDF to text conversion can create different results
 * the special characters `$^{[(|)]}*+?\` in the PDF document are to be escaped
+* `.match(" ... ")` — always use anchors `^...$`
+* `.find(" ... ")` — do NOT add anchors (they are added automatically)
+
+**Standard patterns for common values:**
+
+| Value | Example | Pattern |
+| :--- | :--- | :--- |
+| Date | 01.01.1970 | `[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}` |
+| Date | 1.1.1970 | `[\\d]{1,2}\\.[\\d]{1,2}\\.[\\d]{4}` |
+| Time | 12:01 | `[\\d]{2}\\:[\\d]{2}` |
+| ISIN | IE00BKM4GZ66 | `[A-Z]{2}[A-Z0-9]{9}[0-9]` |
+| WKN | A111X9 | `[A-Z0-9]{6}` |
+| Valoren | 1098758 | `[A-Z0-9]{5,9}` |
+| SEDOL | B5B74S0 | `[A-Z0-9]{7}` |
+| CUSIP | 11135F101 | `[A-Z0-9]{9}` |
+| TickerSymbol | AAPL, BRK.B | `[A-Z0-9]{1,6}(?:\\.[A-Z]{1,4})?` |
+| Crypto Ticker | BTC, ETH-BTC | `[A-Z0-9]{1,5}(?:[\\-\\/][A-Z0-9]{1,5})?` |
+| Amount | 751,68 | `[\\.,\\d]+` or `[\\.\\d]+,[\\d]{2}` |
+| Amount | 74'120.00 | `[\\.'\\d]+` |
+| Amount | 20 120.00 | `[\\.\\d\\s]+` |
+| Currency | EUR | `[A-Z]{3}` |
+| Currency Symbol | € or $ | `\\p{Sc}` |
 
 ## Conventions
 
@@ -86,6 +108,34 @@ v.put("currency", asCurrencyCode("USD"));         // works but prefer named cons
     var tax = Money.of(asCurrencyCode(v.get("currency")), asAmount(v.get("tax")));  // correct
 })
 ```
+
+**Runtime transaction type switch** — when a single PDF document format contains both deposits and removals (or buys and sells) distinguished only by a sign character, it is allowed to combine them into one block. Set `subject()` to the default type and switch in `assign()` based on the extracted sign. Use `@formatter:off/on` inside the assign lambda to mark the switch comment:
+```java
+var depositRemovalBlock = new Block("^[\\d]{2}\\.[\\d]{2}\\.[\\d]{4} (Einzahlung|Auszahlung) (\\-)?[\\.,\\d]+ .*$");
+depositRemovalBlock.set(new Transaction<AccountTransaction>()
+
+                .subject(() -> new AccountTransaction(AccountTransaction.Type.DEPOSIT))
+
+                .section("date", "amount", "type", "note") //
+                .documentContext("currency") //
+                .match("^(?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) (Einzahlung|Auszahlung)(?<type>\\s(\\-)?)(?<amount>[\\.,\\d]+) (?<note>.*)$") //
+                .assign((t, v) -> {
+                    // @formatter:off
+                    // Is type --> "-" change from DEPOSIT to REMOVAL
+                    // @formatter:on
+                    if ("-".equals(trim(v.get("type"))))
+                        t.setType(AccountTransaction.Type.REMOVAL);
+
+                    t.setDateTime(asDate(v.get("date")));
+                    t.setCurrencyCode(v.get("currency"));
+                    t.setAmount(asAmount(v.get("amount")));
+                    t.setNote(trim(v.get("note")));
+                })
+
+                .wrap(TransactionItem::new));
+```
+
+Block variable names may use an underscore suffix to distinguish format variants: `depositRemovalBlock_Format01`, `depositRemovalBlock_Format02`.
 
 **wrap() block** — the SkippedItem guard is optional; only add it when the extractor can produce zero-amount transactions that should be skipped. If used, apply the canonical `if/return SkippedItem` form; no ternary, no intermediate `item` variable, no unused `ctx` parameter. Always guard the amount check with a currency code null-check:
 ```java
