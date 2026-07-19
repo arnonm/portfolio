@@ -280,6 +280,9 @@ public class Messages extends NLS
     public static String ColumnPreviousPrice;
     public static String ColumnProfitLoss;
     public static String ColumnProfitLossBaseCurrency;
+    public static String ColumnProfitLossFIFO_Description;
+    public static String ColumnProfitLossGeneric_Description;
+    public static String ColumnProfitLossMovingAverage_Description;
     public static String ColumnPurchasePrice;
     public static String ColumnPurchasePrice_Description;
     public static String ColumnPurchasePrice_MenuLabel;
@@ -659,6 +662,7 @@ public class Messages extends NLS
     public static String LabelConsumerPriceIndex;
     public static String LabelConvertBuySellIntoDeliveryTransactions;
     public static String LabelCopyToClipboard;
+    public static String LabelCostMethod;
     public static String LabelCountry;
     public static String LabelCreateAccountFirst;
     public static String LabelCrosshair;
@@ -862,6 +866,7 @@ public class Messages extends NLS
     public static String LabelQuoteFeedConfiguration;
     public static String LabelQuoteFeedProvider;
     public static String LabelRatio;
+    public static String LabelRebalancingAmountToInvest;
     public static String LabelRefresh;
     public static String LabelRemoveDividends;
     public static String LabelRemoveLogo;
@@ -1082,6 +1087,7 @@ public class Messages extends NLS
     public static String MenuSetCurrentViewAsInitialView;
     public static String MenuSettingsNew;
     public static String MenuShow;
+    public static String MenuShowAmountToInvest;
     public static String MenuShowHideColumns;
     public static String MenuShowInformationPane;
     public static String MenuShowSidebar;
@@ -1257,7 +1263,6 @@ public class Messages extends NLS
     public static String PortfolioMenuDeleteConfirm;
     public static String PortfolioReportMissingAPIKey;
     public static String PortfolioReportMissingAPIURL;
-    public static String PortfolioReportNotificationMessage;
     public static String PrefAlphaVantageAPIKey;
     public static String PrefAlphaVantageCallFrequencyLimit;
     public static String PrefDoubleClickCellToEdit;
@@ -1437,7 +1442,6 @@ public class Messages extends NLS
     public static String SiteAppLandingpage;
     public static String SiteForum;
     public static String SiteHowTo;
-    public static String SiteInfoPortfolioReportMigration;
     public static String SiteManual;
     public static String SiteNewAndNoteworthy;
     public static String SplitWizardDefinitionDescription;

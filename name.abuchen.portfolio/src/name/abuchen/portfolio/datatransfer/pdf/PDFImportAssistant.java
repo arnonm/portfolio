@@ -136,6 +136,7 @@ public class PDFImportAssistant
         extractors.add(new SimpelPDFExtractor(client));
         extractors.add(new SolarisbankAGPDFExtractor(client));
         extractors.add(new StakeshopPtyLtdPDFExtractor(client));
+        extractors.add(new StGallerKantonalbankPDFExtractor(client));
         extractors.add(new SunrisePDFExtractor(client));
         extractors.add(new SuresseDirektBankPDFExtractor(client));
         extractors.add(new SutorBankGmbHPDFExtractor(client));
@@ -148,6 +149,7 @@ public class PDFImportAssistant
         extractors.add(new UBSAGBankingAGPDFExtractor(client));
         extractors.add(new UmweltbankAGPDFExtractor(client));
         extractors.add(new UnicreditPDFExtractor(client));
+        extractors.add(new UpvestPDFExtractor(client));
         extractors.add(new VanguardGroupEuropePDFExtractor(client));
         extractors.add(new VBankAGPDFExtractor(client));
         extractors.add(new VDKBankNVPDFExtractor(client));
