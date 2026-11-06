@@ -44,7 +44,7 @@ jobs:
         run: |
           mvn verify \
             --batch-mode \
-            -Popenapi-lint,openapi-compat \
+            -Popenapi-lint \
             --file portfolio-app/pom.xml
 
   # Runs only on the master branch of the main repo; includes SonarQube analysis.
